@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.fastdelivery.domain.common.currency.CurrencyFactory;
+import ru.fastdelivery.domain.common.volume.Volume;
 import ru.fastdelivery.domain.common.weight.Weight;
 import ru.fastdelivery.domain.delivery.pack.Pack;
 import ru.fastdelivery.domain.delivery.shipment.Shipment;
 import ru.fastdelivery.presentation.api.request.CalculatePackagesRequest;
-import ru.fastdelivery.presentation.api.request.CargoPackage;
+import ru.fastdelivery.presentation.api.request.LocationPoint;
 import ru.fastdelivery.presentation.api.response.CalculatePackagesResponse;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
 
@@ -35,15 +36,24 @@ public class CalculateController {
     })
     public CalculatePackagesResponse calculate(
             @Valid @RequestBody CalculatePackagesRequest request) {
-        var packsWeights = request.packages().stream()
-                .map(CargoPackage::weight)
-                .map(Weight::new)
-                .map(Pack::new)
+
+        var packs = request.packages().stream()
+                .map(p -> {
+                    var weight = new Weight(p.weight());
+                    var volume = new Volume(p.length(), p.width(), p.height());
+                    return new Pack(weight, volume);
+                })
                 .toList();
 
-        var shipment = new Shipment(packsWeights, currencyFactory.create(request.currencyCode()));
+        var shipment = new Shipment(
+                packs,
+                currencyFactory.create(request.currencyCode()),
+                request.departure().toDomain(),
+                request.destination().toDomain()
+        );
         var calculatedPrice = tariffCalculateUseCase.calc(shipment);
         var minimalPrice = tariffCalculateUseCase.minimalPrice();
+
         return new CalculatePackagesResponse(calculatedPrice, minimalPrice);
     }
 }

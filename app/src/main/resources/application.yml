@@ -5,3 +5,17 @@ cost:
   rub:
     perKg: 400
     minimal: 350
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+tariff:
+  volume:
+    price-per-m3: 12000
+geo:
+  min-latitude: 45.0
+  max-latitude: 65.0
+  min-longitude: 30.0
+  max-longitude: 96.0
+  min-distance-km: 450.0

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.9_9-jre-ubi9-minimal
+FROM eclipse-temurin:21-jre
 
 ENV JAVA_TOOL_OPTIONS='-agentlib:jdwp=transport=dt_socket,address=*:7001,server=y,suspend=n'
 

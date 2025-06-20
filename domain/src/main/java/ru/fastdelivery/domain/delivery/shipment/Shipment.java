@@ -1,9 +1,12 @@
 package ru.fastdelivery.domain.delivery.shipment;
 
 import ru.fastdelivery.domain.common.currency.Currency;
+import ru.fastdelivery.domain.common.locationPoint.LocationPoint;
 import ru.fastdelivery.domain.common.weight.Weight;
 import ru.fastdelivery.domain.delivery.pack.Pack;
+import ru.fastdelivery.domain.common.volume.Volume;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,11 +15,21 @@ import java.util.List;
  */
 public record Shipment(
         List<Pack> packages,
-        Currency currency
+        Currency currency,
+        LocationPoint departure,
+        LocationPoint destination
 ) {
     public Weight weightAllPackages() {
         return packages.stream()
-                .map(Pack::weight)
+                .map(Pack::getWeight)
                 .reduce(Weight.zero(), Weight::add);
     }
+
+    public BigDecimal totalVolumeM3() {
+        return packages.stream()
+                .map(Pack::getVolume)
+                .map(Volume::inCubicMeters)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
+

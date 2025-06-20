@@ -1,6 +1,7 @@
 package ru.fastdelivery.domain.delivery.pack;
 
 import org.junit.jupiter.api.Test;
+import ru.fastdelivery.domain.common.volume.Volume;
 import ru.fastdelivery.domain.common.weight.Weight;
 
 import java.math.BigInteger;
@@ -13,13 +14,21 @@ class PackTest {
     @Test
     void whenWeightMoreThanMaxWeight_thenThrowException() {
         var weight = new Weight(BigInteger.valueOf(150_001));
-        assertThatThrownBy(() -> new Pack(weight))
-                .isInstanceOf(IllegalArgumentException.class);
+        var volume = new Volume(300, 400, 500); // допустимые значения
+
+        assertThatThrownBy(() -> new Pack(weight, volume))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Package can't be more than");
     }
 
     @Test
-    void whenWeightLessThanMaxWeight_thenObjectCreated() {
-        var actual = new Pack(new Weight(BigInteger.valueOf(1_000)));
-        assertThat(actual.weight()).isEqualTo(new Weight(BigInteger.valueOf(1_000)));
+    void whenWeightIsValid_thenPackCreated() {
+        var weight = new Weight(BigInteger.valueOf(10_000));
+        var volume = new Volume(350, 600, 250); // допустимые значения
+
+        var pack = new Pack(weight, volume);
+
+        assertThat(pack.getWeight()).isEqualTo(weight);
+        assertThat(pack.getVolume()).isEqualTo(volume);
     }
 }
