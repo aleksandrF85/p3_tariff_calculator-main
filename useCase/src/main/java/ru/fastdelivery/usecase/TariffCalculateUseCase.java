@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import ru.fastdelivery.domain.common.price.Price;
 import ru.fastdelivery.domain.delivery.shipment.Shipment;
 
+import javax.inject.Named;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import javax.inject.Named;
 
 @Named
 @RequiredArgsConstructor

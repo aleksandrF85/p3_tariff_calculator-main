@@ -1,7 +1,5 @@
 package ru.fastdelivery.domain.common.locationPoint;
 
-import java.util.Objects;
-
 public record LocationPoint(Double latitude, Double longitude) {
 
     public LocationPoint {

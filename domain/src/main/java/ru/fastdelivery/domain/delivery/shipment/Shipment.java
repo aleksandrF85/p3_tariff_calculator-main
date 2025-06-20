@@ -2,9 +2,9 @@ package ru.fastdelivery.domain.delivery.shipment;
 
 import ru.fastdelivery.domain.common.currency.Currency;
 import ru.fastdelivery.domain.common.locationPoint.LocationPoint;
+import ru.fastdelivery.domain.common.volume.Volume;
 import ru.fastdelivery.domain.common.weight.Weight;
 import ru.fastdelivery.domain.delivery.pack.Pack;
-import ru.fastdelivery.domain.common.volume.Volume;
 
 import java.math.BigDecimal;
 import java.util.List;

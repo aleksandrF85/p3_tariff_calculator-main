@@ -1,6 +1,5 @@
 package ru.fastdelivery.properties.provider;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.fastdelivery.config.VolumeTariffProperties;
 import ru.fastdelivery.usecase.VolumePriceProvider;
