@@ -17,6 +17,7 @@ import ru.fastdelivery.domain.delivery.pack.Pack;
 import ru.fastdelivery.domain.delivery.shipment.Shipment;
 import ru.fastdelivery.presentation.api.request.CalculatePackagesRequest;
 import ru.fastdelivery.presentation.api.response.CalculatePackagesResponse;
+import ru.fastdelivery.usecase.GeoProvider;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
 
 @RestController
@@ -26,6 +27,7 @@ import ru.fastdelivery.usecase.TariffCalculateUseCase;
 public class CalculateController {
     private final TariffCalculateUseCase tariffCalculateUseCase;
     private final CurrencyFactory currencyFactory;
+    private final GeoProvider geoProvider;
 
     @PostMapping
     @Operation(summary = "Расчет стоимости по упаковкам груза")
@@ -47,8 +49,8 @@ public class CalculateController {
         var shipment = new Shipment(
                 packs,
                 currencyFactory.create(request.currencyCode()),
-                request.departure().toDomain(),
-                request.destination().toDomain()
+                request.departure().toDomain(geoProvider),
+                request.destination().toDomain(geoProvider)
         );
         var calculatedPrice = tariffCalculateUseCase.calc(shipment);
         var minimalPrice = tariffCalculateUseCase.minimalPrice();
