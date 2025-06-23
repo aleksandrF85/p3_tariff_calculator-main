@@ -1,16 +1,43 @@
-package ru.fastdelivery.config;
+package ru.fastdelivery.properties.provider;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import ru.fastdelivery.usecase.GeoProvider;
 
 @ConfigurationProperties(prefix = "geo")
 @Component
-public class GeoProperties {
+public class GeoProperties implements GeoProvider {
     private double minLatitude;
     private double maxLatitude;
     private double minLongitude;
     private double maxLongitude;
     private double minDistanceKm; // 450 км
+
+
+    @Override
+    public double minLatitude() {
+        return minLatitude;
+    }
+
+    @Override
+    public double maxLatitude() {
+        return maxLatitude;
+    }
+
+    @Override
+    public double minLongitude() {
+        return minLongitude;
+    }
+
+    @Override
+    public double maxLongitude() {
+        return maxLongitude;
+    }
+
+    @Override
+    public double minDistanceKm() {
+        return minDistanceKm;
+    }
 
     public double getMinLatitude() {
         return minLatitude;

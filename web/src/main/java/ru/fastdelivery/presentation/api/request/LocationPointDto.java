@@ -1,13 +1,15 @@
 package ru.fastdelivery.presentation.api.request;
 
 import jakarta.validation.constraints.NotNull;
+import ru.fastdelivery.domain.common.locationPoint.LocationPoint;
+import ru.fastdelivery.usecase.GeoProvider;
 
-public record LocationPoint(
+public record LocationPointDto(
         @NotNull Double latitude,
         @NotNull Double longitude
 ) {
-    public ru.fastdelivery.domain.common.locationPoint.LocationPoint toDomain(ru.fastdelivery.usecase.GeoProvider geoProvider) {
-        return ru.fastdelivery.domain.common.locationPoint.LocationPoint.of(
+    public LocationPoint toDomain(GeoProvider geoProvider) {
+        return LocationPoint.of(
                 latitude,
                 longitude,
                 geoProvider.minLatitude(),

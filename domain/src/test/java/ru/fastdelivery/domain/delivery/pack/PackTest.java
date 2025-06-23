@@ -28,7 +28,7 @@ class PackTest {
 
         var pack = new Pack(weight, volume);
 
-        assertThat(pack.getWeight()).isEqualTo(weight);
-        assertThat(pack.getVolume()).isEqualTo(volume);
+        assertThat(pack.weight()).isEqualTo(weight);
+        assertThat(pack.volume()).isEqualTo(volume);
     }
 }

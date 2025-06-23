@@ -21,13 +21,13 @@ public record Shipment(
 ) {
     public Weight weightAllPackages() {
         return packages.stream()
-                .map(Pack::getWeight)
+                .map(Pack::weight)
                 .reduce(Weight.zero(), Weight::add);
     }
 
     public BigDecimal totalVolumeM3() {
         return packages.stream()
-                .map(Pack::getVolume)
+                .map(Pack::volume)
                 .map(Volume::inCubicMeters)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

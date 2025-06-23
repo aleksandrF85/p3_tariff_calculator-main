@@ -3,12 +3,9 @@ package ru.fastdelivery.domain.common.volume;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Volume {
-    private final int lengthMm;
-    private final int widthMm;
-    private final int heightMm;
+public record Volume(int lengthMm, int widthMm, int heightMm) {
 
-    public Volume(int lengthMm, int widthMm, int heightMm) {
+    public Volume {
         if (lengthMm <= 0 || widthMm <= 0 || heightMm <= 0) {
             throw new IllegalArgumentException("Габариты должны быть положительными");
         }
@@ -16,12 +13,13 @@ public class Volume {
             throw new IllegalArgumentException("Каждая сторона не должна превышать 1500 мм");
         }
 
-        this.lengthMm = roundUpToNearest50(lengthMm);
-        this.widthMm = roundUpToNearest50(widthMm);
-        this.heightMm = roundUpToNearest50(heightMm);
+        // округление к ближайшим 50
+        lengthMm = roundUpToNearest50(lengthMm);
+        widthMm = roundUpToNearest50(widthMm);
+        heightMm = roundUpToNearest50(heightMm);
     }
 
-    private int roundUpToNearest50(int value) {
+    private static int roundUpToNearest50(int value) {
         return ((value + 49) / 50) * 50;
     }
 

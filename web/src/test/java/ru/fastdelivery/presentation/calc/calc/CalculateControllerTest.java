@@ -1,4 +1,4 @@
-package ru.fastdelivery.calc;
+package ru.fastdelivery.presentation.calc.calc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +11,7 @@ import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.price.Price;
 import ru.fastdelivery.presentation.api.request.CalculatePackagesRequest;
 import ru.fastdelivery.presentation.api.request.CargoPackage;
-import ru.fastdelivery.presentation.api.request.LocationPoint;
+import ru.fastdelivery.presentation.api.request.LocationPointDto;
 import ru.fastdelivery.presentation.api.response.CalculatePackagesResponse;
 import ru.fastdelivery.usecase.GeoProvider;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
@@ -48,8 +48,8 @@ class CalculateControllerTest extends ControllerTest {
     void whenValidRequest_thenReturn200() {
         var cargo = new CargoPackage(BigInteger.valueOf(140000), 1500, 1500, 1000);
 
-        var departure = new LocationPoint(55.7558, 37.6173);
-        var destination = new LocationPoint(55.0, 90.0); // внутри границ
+        var departure = new LocationPointDto(55.7558, 37.6173);
+        var destination = new LocationPointDto(55.0, 90.0); // внутри границ
 
         var request = new CalculatePackagesRequest(List.of(cargo), "RUB", departure, destination);
 
@@ -70,8 +70,8 @@ class CalculateControllerTest extends ControllerTest {
     @DisplayName("Габарит больше 1500 -> 400 Bad Request")
     void whenOversizedDimension_thenReturn400() {
         var cargo = new CargoPackage(BigInteger.TEN, 1600, 600, 500);
-        var departure = new LocationPoint(55.0, 37.0);
-        var destination = new LocationPoint(56.0, 38.0);
+        var departure = new LocationPointDto(55.0, 37.0);
+        var destination = new LocationPointDto(56.0, 38.0);
 
         var request = new CalculatePackagesRequest(List.of(cargo), "RUB", departure, destination);
 
@@ -86,8 +86,8 @@ class CalculateControllerTest extends ControllerTest {
     void whenInvalidLatitude_thenReturn400() {
         // широта 10.0 вне [45.0, 65.0]
         var cargo = new CargoPackage(BigInteger.TEN, 500, 600, 500);
-        var departure = new LocationPoint(10.0, 37.0);
-        var destination = new LocationPoint(56.0, 38.0);
+        var departure = new LocationPointDto(10.0, 37.0);
+        var destination = new LocationPointDto(56.0, 38.0);
 
         var request = new CalculatePackagesRequest(List.of(cargo), "RUB", departure, destination);
 
@@ -100,8 +100,8 @@ class CalculateControllerTest extends ControllerTest {
     @Test
     @DisplayName("Список упаковок == null -> 400 Bad Request")
     void whenNullPackageList_thenReturn400() {
-        var departure = new LocationPoint(55.0, 37.0);
-        var destination = new LocationPoint(56.0, 38.0);
+        var departure = new LocationPointDto(55.0, 37.0);
+        var destination = new LocationPointDto(56.0, 38.0);
 
         var request = new CalculatePackagesRequest(null, "RUB", departure, destination);
 

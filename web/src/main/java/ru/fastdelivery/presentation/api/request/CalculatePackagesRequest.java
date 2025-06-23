@@ -20,14 +20,16 @@ public record CalculatePackagesRequest(
         @NotNull
         String currencyCode,
 
-        @Schema(description = "Координаты пункта отправления")
+        @Schema(description = "Координаты пункта отправления",
+                example = "{\"latitude\": 55.7558, \"longitude\": 37.6173}") // Москва
         @NotNull
         @Valid
-        LocationPoint departure,
+        LocationPointDto departure,
 
-        @Schema(description = "Координаты пункта получения")
+        @Schema(description = "Координаты пункта получения",
+                example = "{\"latitude\": 56.8389, \"longitude\": 60.6057}") // Екатеринбург
         @NotNull
         @Valid
-        LocationPoint destination
+        LocationPointDto destination
 ) {
 }
