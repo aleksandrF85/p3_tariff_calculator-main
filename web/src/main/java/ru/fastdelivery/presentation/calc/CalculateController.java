@@ -1,6 +1,8 @@
 package ru.fastdelivery.presentation.calc;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +37,33 @@ public class CalculateController {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid input provided")
     })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Пример запроса для маршрута Москва → Екатеринбург",
+            required = true,
+            content = @Content(
+                    examples = @ExampleObject(name = "Москва → Екатеринбург", value = """
+            {
+              "packages": [
+                {
+                  "weight": 4056,
+                  "length": 350,
+                  "width": 600,
+                  "height": 250
+                }
+              ],
+              "currencyCode": "RUB",
+              "departure": {
+                "latitude": 55.7558,
+                "longitude": 37.6173
+              },
+              "destination": {
+                "latitude": 56.8389,
+                "longitude": 60.6057
+              }
+            }
+        """)
+        )
+    )
     public CalculatePackagesResponse calculate(
             @Valid @RequestBody CalculatePackagesRequest request) {
 
